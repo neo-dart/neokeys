@@ -6,7 +6,6 @@ Get characters from a terminal keyboard, similar to `getch` in [curses][0] libra
 [![Code coverage][cov_img]][cov_url]
 [![Github action status][gha_img]][gha_url]
 [![Dartdocs][doc_img]][doc_url]
-
 [![Style guide][sty_img]][sty_url]
 
 [pub_url]: https://pub.dartlang.org/packages/neokeys
