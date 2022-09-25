@@ -18,7 +18,7 @@ import 'package:meta/meta.dart';
 /// [BufferedKeys] provides a synchronous API for the _state_ of key codes:
 /// ```
 /// void processInput(BufferedKeys keys) {
-///   if (keys.isPressed(/* q * / 0x71)) {
+///   if (keys.isPressed(/* q */ 0x71)) {
 ///     print('"q" was pressed');
 ///   }
 /// }
