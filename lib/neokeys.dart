@@ -123,14 +123,21 @@ abstract class BufferedKeys {
 
   /// Returns whether the provided key code exists in the buffer.
   ///
-  /// May provide up to 3 codes in order to capture control characters:
+  /// May provide up to 6 codes in order to capture control characters:
   /// ```dart
   /// void processInput(BufferedKeys keys) {
   ///   final upArrowPressed = keys.isPressed(0x1B, 0x5B, 0x41);
   ///   // ...
   /// }
   /// ```
-  bool isPressed(int code1, [int? code2, int? code3]);
+  bool isPressed(
+    int code1, [
+    int code2,
+    int code3,
+    int code4,
+    int code5,
+    int code6,
+  ]);
 
   /// Returns whether any key is present in the buffer.
   ///
@@ -149,17 +156,41 @@ class _SyncBufferedKeys extends BufferedKeys {
     _buffer.clear();
   }
 
+  static const _notSet$ImplementationDetailDoNotUse = -1;
+
   @override
-  bool isPressed(int code1, [int? code2, int? code3]) {
+  bool isPressed(
+    int code1, [
+    int code2 = _notSet$ImplementationDetailDoNotUse,
+    int code3 = _notSet$ImplementationDetailDoNotUse,
+    int code4 = _notSet$ImplementationDetailDoNotUse,
+    int code5 = _notSet$ImplementationDetailDoNotUse,
+    int code6 = _notSet$ImplementationDetailDoNotUse,
+  ]) {
     for (final keys in _buffer) {
-      switch (keys.length) {
-        case 1:
-          return code2 == null && code1 == keys[0];
-        case 2:
-          return code3 == null && code1 == keys[0] && code2 == keys[1];
-        case 3:
-          return code3 == keys[2] && code2 == keys[1] && code1 == keys[0];
+      /// Returns whether the key at the provided index matches a code.
+      ///
+      /// - If code is undefined, a key must not be set for the index.
+      /// - If code is specified, a key must be set and must be equal.
+      bool hasMatch(int index, int code) {
+        // An undefined code means we expect the buffer to be empty.
+        if (code == _notSet$ImplementationDetailDoNotUse) {
+          return index >= keys.length;
+        }
+        // A specified code means we expect the buffer to have the exact value.
+        return index < keys.length && code == keys[index];
       }
+
+      if (!hasMatch(0, code1) ||
+          !hasMatch(1, code2) ||
+          !hasMatch(2, code3) ||
+          !hasMatch(3, code4) ||
+          !hasMatch(4, code5) ||
+          !hasMatch(5, code6)) {
+        continue;
+      }
+
+      return true;
     }
     return false;
   }

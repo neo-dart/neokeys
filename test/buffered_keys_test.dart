@@ -57,6 +57,24 @@ void main() {
 
       expect(keys.isPressed(1, 2, 3), isTrue);
     });
+
+    test('should check for a 4-code character', () {
+      buffer.add([1, 2, 3, 4]);
+
+      expect(keys.isPressed(1, 2, 3, 4), isTrue);
+    });
+
+    test('should check for a 5-code character', () {
+      buffer.add([1, 2, 3, 4, 5]);
+
+      expect(keys.isPressed(1, 2, 3, 4, 5), isTrue);
+    });
+
+    test('should check for a 6-code character', () {
+      buffer.add([1, 2, 3, 4, 5, 6]);
+
+      expect(keys.isPressed(1, 2, 3, 4, 5, 6), isTrue);
+    });
   });
 
   group('BufferedKeys.async', () {
